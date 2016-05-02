@@ -2,16 +2,14 @@
 ## line graph showing the Global Active Power usage in kilowatts for 01-02/02/2007 and 
 ## sends it to the png file called Plot2.png
 
-makeplot2 <- function(){
+mp2 <- function(){
   
-  dataforplots <- read.csv2("household_power_consumption.txt")
-  reducedata <- dataforplots[dataforplots$Date== "1/2/2007" | dataforplots$Date== "2/2/2007",1:3]
-
   
-  x <- paste(reducedata[,1],reducedata[,2])
-  z <- strptime(x,"%d/%m/%Y %H:%M:%S")
-  plot(z,as.numeric(reducedata[,3])/500, xlab = "", ylab = "Global Active Power (kilowatts)",type = "l")
-  dev.copy(png,file = "Plot2.png")
+  dfp <- read.table("household_power_consumption.txt",header=TRUE,sep=";",stringsAsFactors=FALSE,dec=".")
+  rd <- dfp[dfp$Date== "1/2/2007" | dfp$Date== "2/2/2007",1:3]
+  fp2 <- strptime(paste(rd$Date,rd$Time),"%d/%m/%Y %H:%M:%S")
+  plot(fp2,rd$Global_active_power, xlab = "", ylab = "Global Active Power (kilowatts)",type = "l")
+  dev.copy(png,file = "Plot2.png",width=480,height=480)
   dev.off()
  
 }
